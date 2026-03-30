@@ -1,3 +1,8 @@
+# Description
+A web-based lead generation tool built that helps sales teams identify and prioritize real-world businesses for security camera installations.
+The app uses a live API to search for actual local businesses — such as warehouses, construction sites, and retail stores — based on any city the user enters. Each lead is automatically ranked by priority using Trishula's Risk Logic: businesses categorized as Construction Sites or Warehouses are flagged as 🔴 High Priority, while Retail or Other types are marked as 🟢 Low Priority.
+
+
 # React + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
@@ -14,3 +19,6 @@ The React Compiler is not enabled on this template because of its impact on dev 
 ## Expanding the ESLint configuration
 
 If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+
+# API Used
+OpenStreetMap Nominatim
