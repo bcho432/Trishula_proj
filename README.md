@@ -1,24 +1,35 @@
-# Description
-A web-based lead generation tool built that helps sales teams identify and prioritize real-world businesses for security camera installations.
-The app uses a live API to search for actual local businesses — such as warehouses, construction sites, and retail stores — based on any city the user enters. Each lead is automatically ranked by priority using Trishula's Risk Logic: businesses categorized as Construction Sites or Warehouses are flagged as 🔴 High Priority, while Retail or Other types are marked as 🟢 Low Priority.
+# Trishula AI · Real-time lead finder
 
+## Description
 
-# React + Vite
+A web-based lead generation tool that helps sales teams identify and prioritize real-world businesses for security camera installations. The app uses a **live API** to search for actual local businesses—such as warehouses, construction-related places, and retail—based on any city the user enters. Each lead is automatically ranked by **Trishula risk logic**: **Construction Site** or **Warehouse** → high priority; **Retail** or **Other** → low priority.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**API used:** [OpenStreetMap Nominatim](https://nominatim.org/) (free, no API key).
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## What this does
 
-## React Compiler
+- **Live search** — Query Nominatim for a city; results become leads with name, building type, and location.
+- **Manual leads** — Add rows from the form.
+- **Delete** and **`localStorage`** persistence.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+**Stack:** React + Vite (JavaScript).
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Serverless function: `api/nominatim.js`
 
-# API Used
-OpenStreetMap Nominatim
+**What it is:** A **Vercel serverless function** at **`/api/nominatim`**. It runs on Vercel (or `vercel dev`), not inside the static `dist/` bundle.
+
+**What it does:**
+
+- **GET** only; forwards query params (e.g. `q`, `format`, `limit`, `addressdetails`) to `https://nominatim.openstreetmap.org/search`.
+- Returns Nominatim’s status and body to the browser.
+- Sets a proper **`User-Agent`** per [Nominatim’s usage policy](https://operations.osmfoundation.org/policies/nominatim/).
+- **405** for non-GET; **502** if the upstream request fails.
+
+**Why:** Browsers are often blocked by **CORS** when calling Nominatim directly. The production app calls **`/api/nominatim`** on your own domain; the function calls Nominatim from the server.
+
+**Local dev:** Use **`npm run dev`** — the **Vite proxy** in `vite.config.js` (`/nominatim` → Nominatim) replaces this. Production builds use **`/api/nominatim`**.
+

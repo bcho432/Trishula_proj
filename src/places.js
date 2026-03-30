@@ -1,8 +1,9 @@
 import { priorityForBuildingType } from './risk'
 
+// Dev: Vite proxy (vite.config.js). Production (e.g. Vercel): serverless proxy (api/nominatim.js).
 const NOMINATIM_SEARCH = import.meta.env.DEV
   ? '/nominatim/search'
-  : 'https://nominatim.openstreetmap.org/search'
+  : '/api/nominatim'
 
 function delay(ms) {
   return new Promise((r) => setTimeout(r, ms))

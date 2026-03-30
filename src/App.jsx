@@ -42,7 +42,9 @@ export default function App() {
       }
     } catch (err) {
       setSearchError(
-        err instanceof Error ? err.message : 'Search failed. Use npm run dev so the Nominatim proxy is active.',
+        err instanceof Error
+          ? err.message
+          : 'Search failed. Use npm run dev locally, or deploy with the /api/nominatim proxy.',
       )
     } finally {
       setSearching(false)
@@ -78,8 +80,9 @@ export default function App() {
           </div>
         </div>
         <p className="api-note">
-          Live data: OpenStreetMap Nominatim (free, no key). Run <code>npm run dev</code> for search
-          (dev proxy avoids CORS).
+          Live data: OpenStreetMap Nominatim (free, no key). Local: <code>npm run dev</code> uses a
+          Vite proxy. Production (e.g. Vercel): <code>/api/nominatim</code> serverless proxy avoids
+          browser CORS.
         </p>
       </header>
 
